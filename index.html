@@ -532,6 +532,7 @@
         signature: canvas.toDataURL("image/png")
       };
 
+      /*
       try {
         const response = await fetch(SCRIPT_URL, {
           method: "POST",
@@ -557,6 +558,30 @@
         btnSubmit.disabled = false;
         btnSubmit.innerText = "Authorize & Submit Registration";
       }
+      */
+
+      try {
+  await fetch(SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload)
+  });
+
+  // Since mode: "no-cors" returns an opaque response, reaching this line 
+  // means the network request successfully transmitted to Google Apps Script.
+  showStatus("Registration & Waiver form submitted successfully!", "success");
+  form.reset();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  hasSigned = false;
+
+} catch (err) {
+  console.error(err);
+  showStatus("Failed to submit form. Please verify your connection.", "error");
+} finally {
+  btnSubmit.disabled = false;
+  btnSubmit.innerText = "Authorize & Submit Registration";
+}
     });
 
     function showStatus(msg, type) {
