@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wonderbrows by Nay | Client Intake & Consent Form</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-color: #f7f5f0;
+      --card-bg: #ffffff;
+      --primary-black: #000000;
+      --accent-gold: #c5a059;
+      --accent-gold-dark: #a8843f;
+      --text-main: #1c1917;
+      --text-muted: #666666;
+      --border-color: #e2ded6;
+      --error-red: #991b1b;
+      --radius: 8px;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Montserrat', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    /* HEADER / BRANDING */
+    header {
+      background-color: #f3efe6;
+      padding: 50px 20px 70px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .brand-logo-text {
+      font-family: var(--font-serif);
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--primary-black);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .brand-subtitle {
+      font-size: 0.95rem;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
+    /* FORM LAYOUT */
+    .container {
+      max-width: 850px;
+      margin: -40px auto 0;
+      padding: 0 20px;
+    }
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.04);
+      padding: 40px;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      color: var(--primary-black);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+      margin: 35px 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-title i { color: var(--accent-gold); font-size: 1.2rem; }
+    .section-title:first-of-type { margin-top: 0; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      color: var(--primary-black);
+    }
+    .form-group label span.req { color: var(--error-red); }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      background-color: #fafaf8;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+    }
+
+    /* SERVICE SPECIFIC DYNAMIC BANNER */
+    .service-banner {
+      background: #fcf8f2;
+      border-left: 4px solid var(--accent-gold);
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 0.85rem;
+    }
+
+    /* CHECKBOX TILE GRID */
+    .med-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 640px) { .med-grid { grid-template-columns: 1fr; } }
+
+    .checkbox-tile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fafaf8;
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.85rem;
+      user-select: none;
+    }
+    .checkbox-tile input[type="checkbox"] { accent-color: var(--accent-gold); width: 16px; height: 16px; }
+
+    /* TERMS AND POLICIES BOX */
+    .policy-box {
+      background: #fafaf8;
+      border: 1px solid var(--border-color);
+      padding: 18px;
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      color: var(--text-main);
+      max-height: 200px;
+      overflow-y: scroll;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .policy-box h4 { margin: 10px 0 4px; font-size: 0.85rem; text-transform: uppercase; color: var(--accent-gold-dark); }
+    .policy-box h4:first-child { margin-top: 0; }
+
+    .policy-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+    .policy-check input { margin-top: 3px; accent-color: var(--accent-gold); width: 16px; height: 16px; }
+
+    /* CANVAS SIGNATURE */
+    .canvas-container {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      background: #fafaf8;
+      position: relative;
+      touch-action: none;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 160px;
+      cursor: crosshair;
+    }
+    .canvas-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #f3efe6;
+      border-top: 1px solid var(--border-color);
+    }
+    .btn-clear {
+      background: none;
+      border: none;
+      color: var(--error-red);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* SUBMIT BUTTON */
+    .btn-submit {
+      width: 100%;
+      background: var(--primary-black);
+      color: #ffffff;
+      border: none;
+      padding: 16px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: var(--radius);
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.2s ease;
+    }
+    .btn-submit:hover { background: var(--accent-gold-dark); }
+    .btn-submit:disabled { background: #d6d3d1; cursor: not-allowed; }
+
+    #statusMessage {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      text-align: center;
+      display: none;
+    }
+    #statusMessage.success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    #statusMessage.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand-logo-text">WONDERBROWS</div>
+    <div class="brand-subtitle">BY NAY</div>
+  </header>
+
+  <div class="container">
+    <div class="form-card">
+      <form id="clientIntakeForm">
+
+        <!-- 1. SERVICE SELECTION (DYNAMIC FORM CONTROLLER) -->
+        <div class="section-title"><i class="fa-solid fa-sparkles"></i> 1. Select Treatment Service</div>
+        
+        <div class="form-group">
+          <label>Selected Procedure <span class="req">*</span></label>
+          <select id="serviceType" required onchange="handleServiceChange(this.value)">
+            <option value="">-- Choose Your Service --</option>
+            <option value="Microblading">Microblading</option>
+            <option value="Ombre Powder Brows">Ombré Powder Brows</option>
+            <option value="Combination Brows">Combination Brows</option>
+            <option value="Brow Lamination and Tint">Brow Lamination & Tint</option>
+          </select>
+        </div>
+
+        <div id="serviceNotice" class="service-banner" style="display:none;">
+          <!-- Dynamically populated based on selected service -->
+        </div>
+
+        <!-- 2. CLIENT PERSONAL DETAILS -->
+        <div class="section-title"><i class="fa-solid fa-user"></i> 2. Client Contact & Profile</div>
+        
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Full Name (Printed) <span class="req">*</span></label>
+            <input type="text" id="fullName" required placeholder="Jane Doe" />
+          </div>
+          <div class="form-group">
+            <label>Date of Birth <span class="req">*</span></label>
+            <input type="date" id="dob" required />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" id="email" required placeholder="jane@example.com" />
+          </div>
+          <div class="form-group">
+            <label>Phone Number <span class="req">*</span></label>
+            <input type="tel" id="phone" required placeholder="(555) 000-0000" />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Emergency Contact Person <span class="req">*</span></label>
+            <input type="text" id="emergencyContact" required placeholder="Contact Name" />
+          </div>
+          <div class="form-group">
+            <label>Emergency Contact Phone <span class="req">*</span></label>
+            <input type="tel" id="emergencyPhone" required placeholder="(555) 000-0000" />
+          </div>
+        </div>
+
+        <!-- 3. MEDICAL HISTORY CHECKLIST -->
+        <div class="section-title"><i class="fa-solid fa-notes-medical"></i> 3. Client Medical Screening</div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+          Do you currently have or have you previously had any of the following conditions? (Check all that apply)
+        </p>
+
+        <div class="med-grid">
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Pregnant or Breastfeeding"> Pregnant or Breastfeeding</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="History of MRSA"> History of MRSA</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Botox (Past 2 Weeks)"> Botox in last 2 weeks</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Brow/Lash Tinting"> Recent Brow/Lash Tinting</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Diabetes"> Diabetes</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Autoimmune Disorder"> Autoimmune Disorder</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Hepatitis or HIV"> Hepatitis A/B/C/D or HIV</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Oily Skin"> Oily Skin</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Forehead/Eyebrow Lift or Facelift"> Forehead/Eyebrow Lift or Facelift</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Cancer History"> Cancer History</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Excessive Bleeding/Blood Clots"> Bleeding Disorders / Clots</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Accutane / Acne Medication"> Accutane / Acne Medication</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Chemotherapy / Radiation"> Chemotherapy / Radiation</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Tan by Booth or Salon"> Tan by Booth or Salon</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Abnormal Heart Condition"> Heart Condition</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Difficulty Numbing"> Difficulty Numbing</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Blood Thinners (Aspirin/Ibuprofen/etc)"> Taking Blood Thinners</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Retin-A / Retinol / Glycolic Acid"> Using Retin-A / Retinol / Glycolic</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Omegas / Fish Oils"> Omegas / Fish / Cod Oils</label>
+          <label class="checkbox-tile"><input type="checkbox" name="medicalHistory" value="Allergies to Lidocaine/Epinephrine/Metals"> Allergy to Lidocaine/Epinephrine/Metals</label>
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+          <label>List any current medications, vitamins, or additional allergies:</label>
+          <textarea id="medicationsList" rows="2" placeholder="List medications, allergies, or other medical conditions not listed above..."></textarea>
+        </div>
+
+        <!-- 4. POLICIES, RISKS & PHOTO CONSENT -->
+        <div class="section-title"><i class="fa-solid fa-file-contract"></i> 4. Policies & Legal Disclosures</div>
+
+        <div class="policy-box" id="policyTextDisplay">
+          <!-- Dynamically Injected Legal Text based on attachments -->
+        </div>
+
+        <div class="policy-check">
+          <input type="checkbox" id="chkTouchUpPolicy" required />
+          <label for="chkTouchUpPolicy">I accept the <strong>Touch-Up and Refund Policy</strong>. I understand touch-ups carry a separate fee and that <strong>no refunds</strong> will be issued regardless of satisfaction. <span class="req">*</span></label>
+        </div>
+
+        <div class="policy-check">
+          <input type="checkbox" id="chkRisks" required />
+          <label for="chkRisks">I acknowledge the <strong>Possible Risks & Hazards</strong> (infection, hyperpigmentation, uneven pigment, color migration, allergic reaction, asymmetry). <span class="req">*</span></label>
+        </div>
+
+        <div class="policy-check">
+          <input type="checkbox" id="chkPostCare" required />
+          <label for="chkPostCare">I agree to strict compliance with all <strong>Post-Care Instructions</strong> (Aquaphor regimen, keeping brows dry, avoiding sun/tanning/sweating). <span class="req">*</span></label>
+        </div>
+
+        <div class="policy-check">
+          <input type="checkbox" id="chkPhotoRelease" />
+          <label for="chkPhotoRelease"><strong>Photo & Video Release:</strong> I authorize Inaya / Wonderbrows by Nay to publish full-face or brow area photos/videos for advertising, social media, and portfolio use.</label>
+        </div>
+
+        <!-- 5. DIGITAL SIGNATURE -->
+        <div class="section-title"><i class="fa-solid fa-pen-nib"></i> 5. Client Authorization & Signature</div>
+
+        <div class="form-group">
+          <label>Client Digital Signature <span class="req">*</span></label>
+          <div class="canvas-container">
+            <canvas id="sigCanvas"></canvas>
+            <div class="canvas-footer">
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Sign using finger or touchscreen mouse</span>
+              <button type="button" class="btn-clear" id="btnClearSig">Clear Signature</button>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnSubmit">Authorize & Submit Registration</button>
+        <div id="statusMessage"></div>
+
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // GOOGLE APPS SCRIPT WEB APP DEPLOYMENT URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyMv4FoKK6b1rq4otbolyZPIQqtbpDtlrq8SJSDspmvSnb78l-KUncWn02Nh8NfW2bsNw/exec";
+
+    // DOM ELEMENTS
+    const canvas = document.getElementById("sigCanvas");
+    const ctx = canvas.getContext("2d");
+    const btnClear = document.getElementById("btnClearSig");
+    const form = document.getElementById("clientIntakeForm");
+    const btnSubmit = document.getElementById("btnSubmit");
+    const statusMsg = document.getElementById("statusMessage");
+
+    let isDrawing = false;
+    let hasSigned = false;
+
+    // HIGH-DPI CANVAS RESIZING
+    function initCanvas() {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      ctx.scale(ratio, ratio);
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+    }
+
+    window.addEventListener("resize", initCanvas);
+    document.addEventListener("DOMContentLoaded", () => {
+      initCanvas();
+      loadDefaultPolicies("Microblading");
+    });
+
+    // DRAWING EVENT LISTENERS
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    function startDraw(e) {
+      isDrawing = true;
+      hasSigned = true;
+      const pos = getPos(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      const pos = getPos(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+    }
+
+    function stopDraw() { isDrawing = false; }
+
+    canvas.addEventListener("mousedown", startDraw);
+    canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("mouseup", stopDraw);
+    canvas.addEventListener("mouseleave", stopDraw);
+
+    canvas.addEventListener("touchstart", startDraw, { passive: false });
+    canvas.addEventListener("touchmove", draw, { passive: false });
+    canvas.addEventListener("touchend", stopDraw);
+
+    btnClear.addEventListener("click", () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hasSigned = false;
+    });
+
+    // DYNAMIC SERVICE CHANGE LOGIC
+    function handleServiceChange(service) {
+      const banner = document.getElementById("serviceNotice");
+      if (!service) {
+        banner.style.display = "none";
+        return;
+      }
+
+      banner.style.display = "block";
+      if (service.includes("Lamination")) {
+        banner.innerHTML = "<strong>Note for Brow Lamination:</strong> Requires no contact with water or steam for 24 hours post-treatment. Retinoid use must be paused for 48 hours prior.";
+      } else {
+        banner.innerHTML = "<strong>Semi-Permanent Cosmetic Procedure:</strong> Touch-up appointments are recommended at 4–6 weeks post-procedure. Results depend on skin oxidation and heal phase.";
+      }
+
+      loadDefaultPolicies(service);
+    }
+
+    function loadDefaultPolicies(service) {
+      const display = document.getElementById("policyTextDisplay");
+      display.innerHTML = `
+        <h4>1. Touch-Up & Refund Policy</h4>
+        <p>A touch-up may be required within 4–6 weeks after initial application. Each service provided incurs a separate fee; touch-ups are not included in the initial charge. Promos/coupons carry no cash value. Results cannot be guaranteed and <strong>no refunds</strong> will be granted regardless of satisfaction.</p>
+        
+        <h4>2. Possible Risks & Complications</h4>
+        <p>Possible risks include pain/discomfort, infection, hyperpigmentation, hypopigmentation, uneven pigmentation, color migration, allergic reactions, milia, or minor facial asymmetry. If you wish to file a complaint regarding body art facilities in Michigan, visit www.michigan.gov/bodyart.</p>
+        
+        <h4>3. Post-Care Regimen (${service})</h4>
+        <p>Pigment oxidizes immediately and darkens before peeling/fading. Apply thin coats of Aquaphor twice daily (once if oily). DO NOT pick, rub, or scratch dry areas. Keep brows dry (no sweating, heavy exercise, hot tubs, or swimming) until flaking is complete. Avoid direct sun/tanning for 3 weeks.</p>
+      `;
+    }
+
+    // FORM SUBMISSION
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!hasSigned) {
+        showStatus("Digital signature is required before submitting.", "error");
+        return;
+      }
+
+      btnSubmit.disabled = true;
+      btnSubmit.innerText = "Transmitting Secured Document...";
+      statusMsg.style.display = "none";
+
+      const selectedMedical = Array.from(document.querySelectorAll('input[name="medicalHistory"]:checked')).map(cb => cb.value);
+
+      const payload = {
+        serviceType: document.getElementById("serviceType").value,
+        fullName: document.getElementById("fullName").value,
+        dob: document.getElementById("dob").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        emergencyContact: document.getElementById("emergencyContact").value,
+        emergencyPhone: document.getElementById("emergencyPhone").value,
+        medicalHistory: selectedMedical.length > 0 ? selectedMedical.join(", ") : "None Reported",
+        medicationsList: document.getElementById("medicationsList").value || "None Reported",
+        photoConsent: document.getElementById("chkPhotoRelease").checked ? "Granted" : "Declined",
+        signature: canvas.toDataURL("image/png")
+      };
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+
+        const res = await response.json();
+
+        if (res.status === "success") {
+          showStatus("Registration & Waiver form submitted successfully!", "success");
+          form.reset();
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          hasSigned = false;
+        } else {
+          throw new Error(res.message || "Submission failed.");
+        }
+      } catch (err) {
+        console.error(err);
+        showStatus("Failed to submit form. Please verify your connection.", "error");
+      } finally {
+        btnSubmit.disabled = false;
+        btnSubmit.innerText = "Authorize & Submit Registration";
+      }
+    });
+
+    function showStatus(msg, type) {
+      statusMsg.innerText = msg;
+      statusMsg.className = type;
+      statusMsg.style.display = "block";
+    }
+  </script>
+</body>
+</html>
