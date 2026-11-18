@@ -33,11 +33,12 @@
       font-family: var(--font-sans);
       line-height: 1.6;
       padding-bottom: 60px;
+      overflow-x: hidden;
     }
 
     /* HEADER / BRANDING */
     header {
-      background-color: #f3efe6;
+      background-color: #e8d2bb;
       padding: 50px 20px 70px;
       text-align: center;
       border-bottom: 1px solid var(--border-color);
@@ -58,6 +59,13 @@
       color: var(--text-muted);
       margin-top: 10px;
       font-weight: 500;
+    }
+    .brand-logo {
+      display: block;
+      width: min(360px, 72vw);
+      max-height: 230px;
+      object-fit: contain;
+      margin: 0 auto;
     }
 
     /* FORM LAYOUT */
@@ -206,7 +214,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 8px 12px;
-      background: #f3efe6;
+      background: #e8d2bb;
       border-top: 1px solid var(--border-color);
     }
     .btn-clear {
@@ -247,13 +255,126 @@
     }
     #statusMessage.success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
     #statusMessage.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+    @media (max-width: 640px) {
+      body { padding-bottom: 24px; }
+
+      header {
+        padding: 5px 0px 48px;
+      }
+      .brand-logo-text {
+        font-size: clamp(2rem, 10vw, 2.8rem);
+        letter-spacing: 2.5px;
+      }
+      .brand-subtitle {
+        font-size: 0.72rem;
+        letter-spacing: 4px;
+        margin-top: 8px;
+      }
+      .brand-logo {
+        width: min(260px, 78vw);
+        max-height: 170px;
+      }
+
+      .container {
+        width: 100%;
+        margin-top: -28px;
+        padding: 0 12px;
+      }
+      .form-card {
+        padding: 24px 16px;
+        border-radius: 10px;
+      }
+      .section-title {
+        font-size: 1.45rem;
+        gap: 9px;
+        margin: 28px 0 16px;
+      }
+      .section-title i { font-size: 1rem; }
+
+      .grid-2,
+      .med-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .form-group { margin-bottom: 16px; }
+      .form-group label,
+      .checkbox-tile,
+      .policy-check {
+        font-size: 0.78rem;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="date"],
+      select,
+      textarea {
+        min-height: 44px;
+        font-size: 16px;
+        padding: 10px 12px;
+      }
+
+      .checkbox-tile {
+        min-height: 44px;
+        padding: 10px 12px;
+      }
+      .policy-box {
+        max-height: 240px;
+        padding: 14px;
+        font-size: 0.78rem;
+      }
+      .policy-check {
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .policy-check input,
+      .checkbox-tile input[type="checkbox"] {
+        flex: 0 0 auto;
+      }
+
+      canvas { height: 180px; }
+      .canvas-footer {
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .canvas-footer > span { max-width: 180px; }
+      .btn-clear {
+        min-height: 32px;
+        padding: 4px 0 4px 8px;
+      }
+      .btn-submit {
+        min-height: 52px;
+        padding: 14px 10px;
+        font-size: 0.82rem;
+        letter-spacing: 1px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      header { padding-inline: 10px; }
+      .brand-logo-text {
+        font-size: 1.75rem;
+        letter-spacing: 1.5px;
+      }
+      .brand-subtitle { letter-spacing: 3px; }
+      .brand-logo {
+        width: min(220px, 82vw);
+        max-height: 145px;
+      }
+      .container { padding-inline: 8px; }
+      .form-card { padding-inline: 12px; }
+      .section-title { font-size: 1.32rem; }
+      .canvas-footer { flex-direction: column; }
+      .canvas-footer > span { max-width: none; }
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="brand-logo-text">WONDERBROWS</div>
-    <div class="brand-subtitle">BY NAY</div>
+    <img class="brand-logo" src="wonderbrows-logo.png" alt="Wonderbrows by Nay" />
   </header>
 
   <div class="container">
@@ -415,6 +536,7 @@
 
     // HIGH-DPI CANVAS RESIZING
     function initCanvas() {
+      const oldSignature = hasSigned ? canvas.toDataURL("image/png") : null;
       const ratio = Math.max(window.devicePixelRatio || 1, 1);
       canvas.width = canvas.offsetWidth * ratio;
       canvas.height = canvas.offsetHeight * ratio;
@@ -423,6 +545,14 @@
       ctx.lineWidth = 2.5;
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
+
+      if (oldSignature) {
+        const img = new Image();
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0, canvas.offsetWidth, canvas.offsetHeight);
+        };
+        img.src = oldSignature;
+      }
     }
 
     window.addEventListener("resize", initCanvas);
