@@ -103,7 +103,10 @@
     }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
 
-    .form-group { margin-bottom: 20px; }
+    .form-group {
+      min-width: 0;
+      margin-bottom: 20px;
+    }
     .form-group label {
       display: block;
       font-size: 0.8rem;
@@ -136,6 +139,106 @@
       border-color: var(--accent-gold);
       background-color: #ffffff;
       box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+    }
+    select {
+      display: block;
+      min-width: 0;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.4;
+    }
+    select option { white-space: nowrap; }
+
+    .service-select {
+      position: relative;
+      width: 100%;
+      min-width: 0;
+    }
+    #serviceType {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
+    }
+    .service-select-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      min-width: 0;
+      min-height: 46px;
+      padding: 12px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      background: #fafaf8;
+      color: var(--text-main);
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+    .service-select-trigger:focus-visible {
+      outline: 2px solid var(--accent-gold);
+      outline-offset: 2px;
+    }
+    .service-select-value {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .service-select-chevron {
+      flex: 0 0 auto;
+      width: 8px;
+      height: 8px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(45deg) translateY(-2px);
+    }
+    .service-select-options {
+      position: absolute;
+      z-index: 20;
+      top: calc(100% + 4px);
+      right: 0;
+      left: 0;
+      max-height: min(45vh, 240px);
+      overflow-y: auto;
+      padding: 4px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      background: #ffffff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+    .service-select-options[hidden] { display: none; }
+    .service-select-option {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      padding: 11px 10px;
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      color: var(--text-main);
+      font: inherit;
+      text-align: left;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .service-select-option:hover,
+    .service-select-option:focus-visible,
+    .service-select-option[aria-selected="true"] {
+      outline: none;
+      background: #fcf8f2;
     }
 
     /* SERVICE SPECIFIC DYNAMIC BANNER */
@@ -385,14 +488,21 @@
         <div class="section-title"><i class="fa-solid fa-sparkles"></i> 1. Select Treatment Service</div>
         
         <div class="form-group">
-          <label>Selected Procedure <span class="req">*</span></label>
-          <select id="serviceType" required onchange="handleServiceChange(this.value)">
-            <option value="">-- Choose Your Service --</option>
-            <option value="Microblading">Microblading</option>
-            <option value="Ombre Powder Brows">Ombré Powder Brows</option>
-            <option value="Combination Brows">Combination Brows</option>
-            <option value="Brow Lamination and Tint">Brow Lamination & Tint</option>
-          </select>
+          <label id="serviceTypeLabel" for="serviceSelectButton">Selected Procedure <span class="req">*</span></label>
+          <div class="service-select" id="serviceSelect">
+            <select id="serviceType" required aria-hidden="true" tabindex="-1" onchange="handleServiceChange(this.value)">
+              <option value="">-- Choose Your Service --</option>
+              <option value="Microblading">Microblading</option>
+              <option value="Ombre Powder Brows">Ombré Powder Brows</option>
+              <option value="Combination Brows">Combination Brows</option>
+              <option value="Brow Lamination and Tint">Brow Lamination & Tint</option>
+            </select>
+            <button type="button" class="service-select-trigger" id="serviceSelectButton" role="combobox" aria-labelledby="serviceTypeLabel serviceSelectValue" aria-haspopup="listbox" aria-expanded="false" aria-controls="serviceTypeOptions">
+              <span class="service-select-value" id="serviceSelectValue">-- Choose Your Service --</span>
+              <span class="service-select-chevron" aria-hidden="true"></span>
+            </button>
+            <div class="service-select-options" id="serviceTypeOptions" role="listbox" aria-labelledby="serviceTypeLabel" hidden></div>
+          </div>
         </div>
 
         <div id="serviceNotice" class="service-banner" style="display:none;">
@@ -530,9 +640,100 @@
     const form = document.getElementById("clientIntakeForm");
     const btnSubmit = document.getElementById("btnSubmit");
     const statusMsg = document.getElementById("statusMessage");
+    const serviceSelect = document.getElementById("serviceType");
+    const serviceSelectWrapper = document.getElementById("serviceSelect");
+    const serviceSelectButton = document.getElementById("serviceSelectButton");
+    const serviceSelectValue = document.getElementById("serviceSelectValue");
+    const serviceSelectOptions = document.getElementById("serviceTypeOptions");
 
     let isDrawing = false;
     let hasSigned = false;
+
+    function syncServiceSelect() {
+      const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+      serviceSelectValue.textContent = selectedOption ? selectedOption.textContent : "";
+      serviceSelectOptions.querySelectorAll('[role="option"]').forEach((optionButton) => {
+        optionButton.setAttribute("aria-selected", String(optionButton.dataset.value === serviceSelect.value));
+      });
+    }
+
+    function setServiceOptionsOpen(open, focusFirst = false) {
+      serviceSelectOptions.hidden = !open;
+      serviceSelectButton.setAttribute("aria-expanded", String(open));
+      if (open && focusFirst) {
+        const firstOption = serviceSelectOptions.querySelector('[role="option"]:not([data-value=""])');
+        if (firstOption) firstOption.focus();
+      }
+    }
+
+    Array.from(serviceSelect.options).forEach((option) => {
+      const optionButton = document.createElement("button");
+      optionButton.type = "button";
+      optionButton.className = "service-select-option";
+      optionButton.setAttribute("role", "option");
+      optionButton.dataset.value = option.value;
+      optionButton.textContent = option.textContent;
+      optionButton.addEventListener("click", () => {
+        serviceSelect.value = option.value;
+        serviceSelect.dispatchEvent(new Event("change", { bubbles: true }));
+        syncServiceSelect();
+        setServiceOptionsOpen(false);
+        serviceSelectButton.focus();
+      });
+      serviceSelectOptions.appendChild(optionButton);
+    });
+
+    serviceSelectButton.addEventListener("click", () => {
+      setServiceOptionsOpen(serviceSelectOptions.hidden, serviceSelectOptions.hidden);
+    });
+
+    serviceSelectButton.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        setServiceOptionsOpen(true, true);
+      }
+    });
+
+    serviceSelectOptions.addEventListener("keydown", (event) => {
+      const options = Array.from(serviceSelectOptions.querySelectorAll('[role="option"]'));
+      const currentIndex = options.indexOf(document.activeElement);
+      let nextIndex = currentIndex;
+
+      if (event.key === "ArrowDown") nextIndex = Math.min(currentIndex + 1, options.length - 1);
+      else if (event.key === "ArrowUp") nextIndex = Math.max(currentIndex - 1, 0);
+      else if (event.key === "Home") nextIndex = 0;
+      else if (event.key === "End") nextIndex = options.length - 1;
+      else if (event.key === "Escape") {
+        event.preventDefault();
+        setServiceOptionsOpen(false);
+        serviceSelectButton.focus();
+        return;
+      } else {
+        return;
+      }
+
+      event.preventDefault();
+      if (options[nextIndex]) options[nextIndex].focus();
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!serviceSelectWrapper.contains(event.target)) setServiceOptionsOpen(false);
+    });
+
+    serviceSelect.addEventListener("invalid", (event) => {
+      event.preventDefault();
+      serviceSelectButton.focus();
+      setServiceOptionsOpen(true, true);
+    });
+
+    form.addEventListener("reset", () => {
+      window.setTimeout(() => {
+        syncServiceSelect();
+        setServiceOptionsOpen(false);
+      }, 0);
+    });
+
+    syncServiceSelect();
 
     // HIGH-DPI CANVAS RESIZING
     function initCanvas() {
