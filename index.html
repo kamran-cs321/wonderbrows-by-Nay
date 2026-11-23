@@ -892,12 +892,24 @@
       */
 
       try {
+        console.log("Starting form submission...");
+
+  console.log("Apps Script endpoint:", SCRIPT_URL);
+
+  console.log("Submission payload:", {
+    ...payload,
+    signature: payload.signature ? "[PRESENT]" : "[MISSING]"
+  });
+
   await fetch(SCRIPT_URL, {
     method: "POST",
     mode: "no-cors",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(payload)
   });
+ console.log("Request completed.");
+  console.log("Response type:", response.type);
+  console.log("Response status:", response.status);
 
   // Since mode: "no-cors" returns an opaque response, reaching this line 
   // means the network request successfully transmitted to Google Apps Script.
